@@ -1,14 +1,21 @@
 from flask import Flask, render_template
+<<<<<<< HEAD
 import sqlite3
 import os
 
+from generate_key import generate_RSA_keys
 app = Flask(__name__)
 
 visits_db = 'db/users.db'
 
 @app.route("/")
 def main():
-	return render_template("index.html")
+    return render_template("index.html")
+
+@app.route('/generateKey')
+def generateKey():
+    private_key, public_key = generate_RSA_keys()
+    return render_template('index.html', public_key=public_key)
 
 @app.route('/showSignUp')
 def showSignUp():
@@ -27,4 +34,4 @@ def showSignUp():
 	
 
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', port=1025)
+    app.run(host='0.0.0.0', port=1025)
