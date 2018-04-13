@@ -1,5 +1,4 @@
-from flask import Flask, render_template
-<<<<<<< HEAD
+from flask import Flask, render_template, send_from_directory
 import sqlite3
 import os
 
@@ -7,6 +6,9 @@ from generate_key import generate_RSA_keys
 app = Flask(__name__)
 
 visits_db = 'db/users.db'
+
+UPLOAD_FOLDER = '/uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/")
 def main():
@@ -32,6 +34,10 @@ def showSignUp():
 	
 	# return "here"
 	
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=1025)
