@@ -17,6 +17,13 @@ def main():
 @app.route('/generateKey')
 def generateKey():
     private_key, public_key = generate_RSA_keys()
+    conn = sqlite3.connect(visits_db)
+    c = conn.cursor()
+    c.execute('''INSERT into user_table (first_name, last_name, dob, country, address, public_key) VALUES (?,?, ?, ?, ?,?);''',("Em", "C", "01-01", "US", "MIT", public_key)) #with time
+    table1 = c.execute('''SELECT * from user_table;''').fetchall()
+    conn.commit() #commit commands
+    conn.close()
+    #return str(table1)
     return render_template('index.html', public_key=public_key)
 
 @app.route('/showSignUp')
@@ -24,12 +31,7 @@ def showSignUp():
 	# f = open(visits_db, "r")
 	# print(f)
 	# return "yes"
-	conn = sqlite3.connect(visits_db)
-	c = conn.cursor()
-	c.execute('''INSERT into user_table (first_name, last_name, dob, country, address) VALUES (?,?, ?, ?, ?);''',("Em", "C", "01-01", "US", "MIT")) #with time
-	table1 = c.execute('''SELECT * from user_table;''').fetchall()
-	conn.commit() #commit commands
-	conn.close()
+	
 	return str(table1)
 	
 	# return "here"
