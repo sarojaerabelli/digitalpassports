@@ -18,14 +18,6 @@
         <div class="header">
             <h3 class="text-muted">Digital Passports Government Server</h3>
         </div>
- 
-        <div class="jumbotron">
-            <h1>Register for new passport</h1>
-            <p class="lead"></p>
-            <p><a class="btn btn-lg btn-success" href="generateKey" role="button">Generate new RSA key</a>
-            </p>
-            {{ public_key }}
-        </div>
 
         <div class="jumbotron">
         <h1>Add new user</h1>
@@ -45,9 +37,6 @@
 
         <label for="inputAddress" class="sr-only">Address</label>
         <input type="address" name="inputAddress" id="inputAddress" class="form-control" placeholder="Address" required autofocus>
-
-        <label for="inputPublicKey" class="sr-only">Public Key</label>
-        <input type="public_key" name="inputPublicKey" id="inputPublicKey" class="form-control" placeholder="Public Key" required autofocus>
          
         <input type="submit" value = "Add user" class="btn btn-lg btn-success">
         </form>

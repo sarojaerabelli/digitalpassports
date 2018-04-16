@@ -16,26 +16,18 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def main():
     return render_template("index.html")
 
-@app.route('/generateKey')
-def generateKey():
-    private_key, public_key = generate_RSA_keys()
-    conn = sqlite3.connect(visits_db)
-    c = conn.cursor()
-    c.execute('''INSERT into user_table (first_name, last_name, dob, country, address, public_key) VALUES (?,?, ?, ?, ?,?);''',("Em", "C", "01-01", "US", "MIT", public_key)) #with time
-    table1 = c.execute('''SELECT * from user_table;''').fetchall()
-    conn.commit() #commit commands
-    conn.close()
-    return render_template('index.html', public_key=public_key)
-	
 @app.route('/addUser', methods=['GET', 'POST'])
 def addUser():
-    conn = sqlite3.connect(visits_db)
-    c = conn.cursor()
-    c.execute('''INSERT into user_table (first_name, last_name, dob, country, address, public_key) VALUES (?, ?, ?, ?, ?, ?);''',(request.form['inputFirstName'], request.form['inputLastName'], request.form['inputDOB'], request.form['inputCountry'], request.form['inputAddress'], request.form['inputPublicKey'])) #with time
-    table1 = c.execute('''SELECT * from user_table;''').fetchall()
-    conn.commit() #commit commands
-    conn.close()
-    return str(table1)
+	private_key, public_key = generate_RSA_keys()
+	#print(private_key, public_key)
+	conn = sqlite3.connect(visits_db)
+	c = conn.cursor()
+	c.execute('''INSERT into user_table (first_name, last_name, dob, country, address, public_key) VALUES (?, ?, ?, ?, ?, ?);''',(request.form['inputFirstName'], request.form['inputLastName'], request.form['inputDOB'], request.form['inputCountry'], request.form['inputAddress'], public_key)) #with time
+	table1 = c.execute('''SELECT * from user_table;''').fetchall()
+	conn.commit() #commit commands
+	conn.close()
+	print(table1)
+	return render_template('index.html')
     
 @app.route('/upload', methods=['POST'])
 def upload_file():
