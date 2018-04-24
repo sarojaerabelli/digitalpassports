@@ -38,5 +38,9 @@ def upload_file():
     signature = sign(b64encode(f.read() + str(time.time())))
     return render_template('index.html', signature=signature)
 
+@app.route('/android', methods=['GET'])
+def connect_android():
+	return "This is the web app"
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=1025)
