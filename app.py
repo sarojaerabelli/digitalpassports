@@ -22,7 +22,7 @@ def addUser():
 	#print(private_key, public_key)
 	conn = sqlite3.connect(visits_db)
 	c = conn.cursor()
-	c.execute('''INSERT into user_table (first_name, last_name, dob, country, address, public_key) VALUES (?, ?, ?, ?, ?, ?);''',(request.form['inputFirstName'], request.form['inputLastName'], request.form['inputDOB'], request.form['inputCountry'], request.form['inputAddress'], public_key)) #with time
+	c.execute('''INSERT into user_table (first_name, last_name, dob, country, address, pin, public_key) VALUES (?, ?, ?, ?, ?, ?, ?);''',(request.form['inputFirstName'], request.form['inputLastName'], request.form['inputDOB'], request.form['inputCountry'], request.form['inputAddress'], request.form['inputPin'], public_key)) #with time
 	table1 = c.execute('''SELECT * from user_table;''').fetchall()
 	conn.commit() #commit commands
 	conn.close()
@@ -38,9 +38,17 @@ def upload_file():
     signature = sign(b64encode(f.read() + str(time.time())))
     return render_template('index.html', signature=signature)
 
-@app.route('/android', methods=['GET'])
-def connect_android():
-	return "This is the web app"
+@app.route('/android', methods=['GET', 'POST'])
+def send_private_key_to_android():
+	private_key, public_key = generate_RSA_keys()
+	conn = sqlite3.connect(visits_db)
+	c = conn.cursor()
+	c.execute('''INSERT into user_table (first_name, last_name, dob, country, address, public_key) VALUES (?, ?, ?, ?, ?, ?);''',(request.args['inputFirstName'], request.args['inputLastName'], request.args['inputDOB'], request.args['inputCountry'], request.args['inputAddress'], public_key)) #with time
+	table1 = c.execute('''SELECT * from user_table;''').fetchall()
+	conn.commit() #commit commands
+	conn.close()
+	print(table1)
+	return private_key
 
 if __name__ == "__main__":
 	# Change host to your computer's public IP address.
