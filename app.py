@@ -43,4 +43,5 @@ def connect_android():
 	return "This is the web app"
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=1025)
+	# Change host to your computer's public IP address.
+    app.run(host='18.111.23.9', port=1025)

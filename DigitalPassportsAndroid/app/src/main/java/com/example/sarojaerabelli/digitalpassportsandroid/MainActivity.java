@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
                     HttpClient httpclient = new DefaultHttpClient();
 
                     // 2. make POST request to the given URL
-                    HttpGet httpGet = new HttpGet("http://0.0.0.0:1025/android");
+                    //Change address to your computer's public IP address.
+                    HttpGet httpGet = new HttpGet("http://18.111.23.9:1025/android");
 
                     String json = "";
 
